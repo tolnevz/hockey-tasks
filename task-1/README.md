@@ -1,4 +1,8 @@
-# hockey-teams
+# Список хоккейных команд
+
+Демо - [https://stellar-kataifi-78a791.netlify.app/](https://stellar-kataifi-78a791.netlify.app/)
+
+---
 
 This template should help get you started developing with Vue 3 in Vite.
 
