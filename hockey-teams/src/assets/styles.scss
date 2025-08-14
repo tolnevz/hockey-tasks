@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+html,
+body,
+#app {
+  font-family: "Noto Sans", sans-serif;
+  letter-spacing: 0.5px;
+  font-weight: 300 !important;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0px;
+  max-width: 300px;
+
+  label {
+    margin-bottom: 5px;
+  }
+  input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+  @media screen and (max-width: 768px) {
+    max-width: 100%;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+.full-width {
+  width: 100%;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 30px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  thead {
+    background-color: #2980b9;
+    color: #fff;
+
+    th {
+      padding: 16px 20px;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 14px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      border-right: 1px solid #eaeaea;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      @media (max-width: 768px) {
+        padding: 12px 15px;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      transition: all 0.3s ease;
+      border-bottom: 1px solid #f0f0f0;
+
+      &.highlight {
+        background-color: #d52a1e;
+
+        td {
+          color: #fff;
+        }
+      }
+
+      &:hover td {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    td {
+      padding: 14px 20px;
+      color: #333;
+      font-size: 14px;
+      line-height: 1.5;
+      border-right: 1px solid #eaeaea;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      @media (max-width: 768px) {
+        padding: 12px 15px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}

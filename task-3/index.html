@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Хоккейное Табло</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #1a1a2e;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .scoreboard {
+        width: 100%;
+        max-width: 650px;
+        background-color: #222;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        padding: 24px;
+        text-align: center;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: 16px;
+      }
+
+      /* Счёт и команды */
+      .team-container {
+        display: grid;
+        grid-template-columns: 1fr 50px 50px 50px 1fr;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #ddd;
+      }
+
+      .team-name {
+        font-size: 2rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        width: 100%;
+      }
+
+      .team-name.right {
+        text-align: right;
+      }
+
+
+      .team-name.left {
+        text-align: left;
+      }
+
+      .team-score {
+        font-size: 5rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .team-score.winning {
+        color: #0f0;
+        text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      }
+
+      .team-score.tied {
+        color: #aaa;
+      }
+
+      .score-divider {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ccc;
+        justify-self: center;
+      }
+
+      /* Кнопки */
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 16px;
+      }
+
+      .controls-left, .controls-right {
+        display: flex;
+        gap: 10px;
+      }
+
+      .control-btn {
+        background-color: #444;
+        color: white;
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 1.8rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .control-btn:hover {
+        background-color: #555;
+        transform: translateY(-2px);
+      }
+
+      .control-btn:active {
+        transform: translateY(0);
+      }
+
+      .control-btn.plus {
+        background-color: #0f0;
+        color: #000;
+      }
+
+      .control-btn.minus {
+        background-color: #f00;
+        color: #fff;
+      }
+
+      .control-btn.plus:hover {
+        background-color: #3c3;
+      }
+
+      .control-btn.minus:hover {
+        background-color: #d00;
+      }
+
+      @media (max-width: 600px) {
+        .scoreboard {
+          padding: 16px;
+        }
+
+        .team-container {
+          grid-template-columns: 1fr auto auto auto 1fr;
+          font-size: 1.1rem;
+        }
+
+        .team-name {
+          font-size: 1.1rem;
+        }
+
+        .team-score {
+          font-size: 3rem;
+        }
+
+        .score-divider {
+          font-size: 2rem;
+        }
+
+        .control-btn {
+          width: 40px;
+          height: 40px;
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scoreboard">
+      <!-- Счёт и команды -->
+      <div class="team-container">
+        <div class="team-name right">Москва</div>
+        <div class="team-score" id="home-score">0</div>
+        <div class="score-divider">:</div>
+        <div class="team-score" id="away-score">0</div>
+        <div class="team-name left">Воронеж</div>
+      </div>
+
+      <!-- Кнопки -->
+      <div class="controls">
+        <div class="controls-left">
+          <button class="control-btn plus" data-team="home">+</button>
+          <button class="control-btn minus" data-team="home">–</button>
+        </div>
+        <div class="controls-right">
+          <button class="control-btn plus" data-team="away">+</button>
+          <button class="control-btn minus" data-team="away">–</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const homeScoreEl = document.getElementById('home-score');
+      const awayScoreEl = document.getElementById('away-score');
+
+      // Инициализируем счёт
+      let homeScore = 0;
+      let awayScore = 0;
+
+      function updateScore() {
+        homeScoreEl.textContent = homeScore;
+        awayScoreEl.textContent = awayScore;
+
+        // Убираем классы
+        homeScoreEl.classList.remove('winning', 'tied');
+        awayScoreEl.classList.remove('winning', 'tied');
+
+        // Определяем победителя или ничью
+        if (homeScore > awayScore) {
+          homeScoreEl.classList.add('winning');
+        } else if (awayScore > homeScore) {
+          awayScoreEl.classList.add('winning');
+        } else {
+          // Ничья — оба серые
+          homeScoreEl.classList.add('tied');
+          awayScoreEl.classList.add('tied');
+        }
+      }
+
+      // Обработчики кнопок
+      document.querySelectorAll('.control-btn').forEach((button) => {
+        button.addEventListener('click', function () {
+          const team = this.getAttribute('data-team');
+          const isPlus = this.classList.contains('plus');
+
+          if (team === 'home') {
+            if (isPlus && homeScore < 99) homeScore++;
+            if (!isPlus && homeScore > 0) homeScore--;
+          } else if (team === 'away') {
+            if (isPlus && awayScore < 99) awayScore++;
+            if (!isPlus && awayScore > 0) awayScore--;
+          }
+
+          updateScore();
+        });
+      });
+
+      // Инициализация
+      updateScore();
+    </script>
+  </body>
+</html>
